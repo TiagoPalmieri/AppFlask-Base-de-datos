@@ -10,20 +10,58 @@
 
 </head>
 <body>
-    <h1 class="text-center mt-5 mb-5 text-primary">Aguante Chaca</h1>
+    <h1 class="text-center mt-5 mb-5 text-primary">Pizzeria</h1>
 
     <div class="container">
         <div class="card">
             <div class="card-body">
-                <form action=""method="POST">
+                <form action="/user" method="POST">
                     <div class="row mb-3">
                         <div class="col">
                             <label>Nombre</label>
                             <input type="text" class="form-control mb-3" name="Nombre">
                         </div>
+                        <div class="col">
+                            <label>Dirección</label>
+                            <input type="text" class="form-control mb-3" name="Dirección">
+                        </div>
+                        <div class="col">
+                            <label>Telefono</label>
+                            <input type="text" class="form-control mb-3" name="Telefono">
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-primary mb-3 mt-4" type="submit">Save</button>
+                        </div>
                     </div>
-
                 </form>
+
+                <!-- Tabla -->
+
+                <table class="table table-bordered">
+                    <thead>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Dirección</th>
+                        <th scope="col">Telefono</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    </thead>
+
+                <tbody>
+                    {% for d in data %}
+                    <tr>
+                        <td>{{d.nro.pedido}}</td>
+                        <td>{{d.Nombre}}</td>
+                        <td>{{d.Dirección}}</td>
+                        <td>{{d.Telefono}}</td>
+                        <td><button class="btn btn-primary btn-sm" id="">Edit</button></td>
+                        <td><a href="#" class="btn btn-danger btn-sm">Delete</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            
+                </table>
+
             </div>
         </div>
     </div>

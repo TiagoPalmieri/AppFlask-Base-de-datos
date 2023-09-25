@@ -7,11 +7,11 @@ use pizzeria;
 create table
     pedido (
         nro_pedido int auto_increment primary key,
+        Nombre varchar(15),
+        Dirección varchar(30),
+        Telefono int,
         cantidad int,
-        precioFinal float,
-        nroTelefono int,
-        direccion varchar (30),
-        nombreCliente varchar(15)
+        precioFinal float
     );
 
 create table
