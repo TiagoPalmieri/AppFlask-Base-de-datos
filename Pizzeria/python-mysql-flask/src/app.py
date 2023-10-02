@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request 
+from flask import Flask, render_template, request, redirect, url_for
 import os
 import database as db
 
@@ -28,15 +28,44 @@ def home():
 #Ruta para guardar pedidos en la db
 @app.route('/user', methods=['POST'])
 def addPedido():
-    nombre = request.form['Nombre']
-    direccion = request.form['Dirección']
-    telefono = request.form['Telefono']
+    Nombre = request.form['Nombre']
+    Direccion = request.form['Dirección']
+    Telefono = request.form['Telefono']
+    tipo = request.form['tipo']
+    cantidad = request.form['cantidad']
 
-    if nombre and direccion and telefono:
+    if Nombre and Direccion and Telefono and tipo and cantidad:
         cursor = db.database.cursor()
-        sql = "INSERT INTO pedido (nombre, direccion, telefono) VALUES"
+        sql = "INSERT INTO pedido (Nombre, Direccion, Telefono, tipo, cantidad) VALUES (%s, %s, %s, %s, %s)"
+        data = (Nombre, Direccion, Telefono, tipo, cantidad)
+        cursor.execute(sql, data)
+        db.database.commit()
+    return redirect(url_for('home'))
 
+@app.route('/edit/<string:id>', method=['POST'])
+def edit(id):
+    Nombre = request.form['Nombre']
+    Direccion = request.form['Dirección']
+    Telefono = request.form['Telefono']
+    tipo = request.form['tipo']
+    cantidad = request.form['cantidad']
 
+    if Nombre and Direccion and Telefono and tipo and cantidad:
+        cursor = db.database.cursor()
+        sql = "UPDATE pedido SET Nombre = %s, Direccion = %s, Telefono = %s, tipo = %s, cantidad = %s WHERE id = %s"
+        data = (Nombre, Direccion, Telefono, tipo, cantidad, id)
+        cursor.execute(sql, data)
+        db.database.commit()
+    return redirect(url_for('home'))
+
+@app.route('/delete/<string:id>')
+def delete(id):
+    cursor = db.database.cursor()
+    sql = "DELETE FROM pedido WHERE id=%s)"
+    data = (id,)
+    cursor.execute(sql, data)
+    db.database.commit()
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run(debug=True, port=4000)

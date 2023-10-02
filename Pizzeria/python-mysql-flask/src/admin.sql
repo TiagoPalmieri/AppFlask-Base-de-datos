@@ -8,8 +8,9 @@ create table
     pedido (
         nro_pedido int auto_increment primary key,
         Nombre varchar(15),
-        Dirección varchar(30),
+        Direccion varchar(30),
         Telefono int,
+        tipo VARCHAR(50),
         cantidad int,
         precioFinal float
     );
@@ -39,3 +40,20 @@ create table
         nroProducto int,
         foreign key(nroProducto) references producto(nroProducto)
     );
+
+DELIMITER //
+CREATE TRIGGER precio
+BEFORE INSERT ON pedido
+FOR EACH ROW
+BEGIN
+    IF NEW.tipo = 'Pizza' THEN
+        SET NEW.precioFinal = 2500 * NEW.cantidad;
+    ELSE
+        SET NEW.precioFinal = 350 * NEW.cantidad;
+    END IF;
+END;
+//
+DELIMITER ;
+
+INSERT INTO pedido(Nombre, Direccion, Telefono, tipo, cantidad)
+VALUES ("Cetro Juan Cruz", "Av Forest 822", 1131349152, "Pizza", 5);
