@@ -10,7 +10,6 @@ template_dir = os.path.join(template_dir, 'src', 'templates')
 
 app = Flask(__name__, template_folder = template_dir)
 
-
 #Rutas de la aplicación
 @app.route('/')
 def home():
@@ -42,8 +41,8 @@ def addPedido():
         db.database.commit()
     return redirect(url_for('home'))
 
-@app.route('/edit/<string:id>', methods=['POST'])
-def edit(id):
+@app.route('/edit/<string:nro_pedido>', methods=['POST'])
+def edit(nro_pedido):
     Nombre = request.form['Nombre']
     Direccion = request.form['Dirección']
     Telefono = request.form['Telefono']
@@ -52,17 +51,17 @@ def edit(id):
 
     if Nombre and Direccion and Telefono and tipo and cantidad:
         cursor = db.database.cursor()
-        sql = "UPDATE pedido SET Nombre = %s, Direccion = %s, Telefono = %s, tipo = %s, cantidad = %s WHERE id = %s"
-        data = (Nombre, Direccion, Telefono, tipo, cantidad, id)
+        sql = "UPDATE pedido SET Nombre = %s, Direccion = %s, Telefono = %s, tipo = %s, cantidad = %s WHERE nro_pedido = %s"
+        data = (Nombre, Direccion, Telefono, tipo, cantidad, nro_pedido)
         cursor.execute(sql, data)
         db.database.commit()
     return redirect(url_for('home'))
 
-@app.route('/delete/<string:id>')
-def delete(id):
+@app.route('/delete/<string:nro_pedido>')
+def delete(nro_pedido):
     cursor = db.database.cursor()
-    sql = "DELETE FROM pedido WHERE id=%s)"
-    data = (id,)
+    sql = "DELETE FROM pedido WHERE nro_pedido=%s"
+    data = (nro_pedido,)
     cursor.execute(sql, data)
     db.database.commit()
     return redirect(url_for('home'))

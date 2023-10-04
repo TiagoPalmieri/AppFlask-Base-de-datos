@@ -1,46 +1,50 @@
-drop database if exists pizzeria;
+-- Drop the database if it exists
+DROP DATABASE IF EXISTS pizzeria;
 
-create database pizzeria;
+-- Create a new database named pizzeria
+CREATE DATABASE pizzeria;
 
-use pizzeria;
+-- Use the pizzeria database
+USE pizzeria;
 
-create table
-    pedido (
-        nro_pedido int auto_increment primary key,
-        Nombre varchar(15),
-        Direccion varchar(30),
-        Telefono int,
-        tipo VARCHAR(50),
-        cantidad int,
-        precioFinal float
-    );
+-- Create the 'pedido' table
+CREATE TABLE pedido (
+    nro_pedido INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(15),
+    Direccion VARCHAR(30),
+    Telefono INT,
+    tipo VARCHAR(50),
+    cantidad INT,
+    precioFinal FLOAT
+);
 
-create table
-    producto (
-        nroProducto int auto_increment primary key,
-        cantidad int,
-        precio float,
-        tipoProducto varchar(15),
-        nro_pedido int,
-        foreign key(nro_pedido) references pedido(nro_pedido)
-    );
+-- Create the 'producto' table with a foreign key reference to 'pedido'
+CREATE TABLE producto (
+    nroProducto INT AUTO_INCREMENT PRIMARY KEY,
+    cantidad INT,
+    precio FLOAT,
+    tipoProducto VARCHAR(15),
+    nro_pedido INT,
+    FOREIGN KEY (nro_pedido) REFERENCES pedido(nro_pedido)
+);
 
-create table
-    tipoProducto (
-        nombre varchar(20) primary key,
-        nroProducto int,
-        foreign key(nroProducto) references producto(nroProducto)
-    );
+-- Create the 'tipoProducto' table with a foreign key reference to 'producto'
+CREATE TABLE tipoProducto (
+    nombre VARCHAR(20) PRIMARY KEY,
+    nroProducto INT,
+    FOREIGN KEY (nroProducto) REFERENCES producto(nroProducto)
+);
 
-create table
-    combos (
-        nombre varchar(15) primary key,
-        precio float,
-        cantCombos int,
-        nroProducto int,
-        foreign key(nroProducto) references producto(nroProducto)
-    );
+-- Create the 'combos' table with a foreign key reference to 'producto'
+CREATE TABLE combos (
+    nombre VARCHAR(15) PRIMARY KEY,
+    precio FLOAT,
+    cantCombos INT,
+    nroProducto INT,
+    FOREIGN KEY (nroProducto) REFERENCES producto(nroProducto)
+);
 
+-- Define a trigger 'precio' for 'pedido' table
 DELIMITER //
 CREATE TRIGGER precio
 BEFORE INSERT ON pedido
