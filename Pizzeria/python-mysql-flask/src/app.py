@@ -42,7 +42,7 @@ def addPedido():
         db.database.commit()
     return redirect(url_for('home'))
 
-@app.route('/edit/<string:id>', method=['POST'])
+@app.route('/edit/<string:id>', methods=['POST'])
 def edit(id):
     Nombre = request.form['Nombre']
     Direccion = request.form['Dirección']

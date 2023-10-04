@@ -54,6 +54,3 @@ BEGIN
 END;
 //
 DELIMITER ;
-
-INSERT INTO pedido(Nombre, Direccion, Telefono, tipo, cantidad)
-VALUES ("Cetro Juan Cruz", "Av Forest 822", 1131349152, "Pizza", 5);
