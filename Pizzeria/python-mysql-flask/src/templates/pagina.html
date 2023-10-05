@@ -8,6 +8,177 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
+    <script>
+        function showMenu()
+        {
+            //cargar el menu.html en la caja de destino que tiene por id = "main"
+            var divMain = document.getElementById("main");
+            var tableMenu = "<table class=\"table table-bordered\">";
+                tableMenu += "<tr>";
+                tableMenu += "<th class=\"centrado\" >Pizza</th>";
+                tableMenu += "<th class=\"centrado\">Grande</th>";
+                tableMenu += "<th class=\"centrado\">Chica</th>";
+                tableMenu += "<th class=\"centrado\">Porcion</th>";
+                tableMenu += "</tr>";
+                tableMenu += "<tr>";
+                tableMenu += "<td>Muzzarella</td>";
+                tableMenu += "<td>2500</td>";
+                tableMenu += "<td>1800</td>";
+                tableMenu += "<td>600</td>";
+                tableMenu += "</tr>";
+                tableMenu += "<tr>";
+                tableMenu += "<td>Fugazzeta</td>";
+                tableMenu += "<td>3000</td>";
+                tableMenu += "<td>2000</td>";
+                tableMenu += "<td>800</td>";
+                tableMenu += "</tr>";
+                tableMenu += "<tr>";
+                tableMenu += "<td>Napolitana</td>";
+                tableMenu += "<td>3500</td>";
+                tableMenu += "<td>2700</td>";
+                tableMenu += "<td>1500</td>";
+                tableMenu += "</tr>";
+                tableMenu += "</table>";
+            
+                divMain.innerHTML = tableMenu;
+        }
+        
+        function limpiarPagina()
+        {
+            var divMain = document.getElementById("main");
+            divMain.innerHTML = "";
+        }
+
+        function showPedidos() {
+    // Conectarte al servidor (puedes reemplazarlo con tu lógica de obtención de datos)
+    // var colleccionDePedidos = servidor.getPedidos();
+    // Formato JSON (Javascript Object Notation)
+    var colleccionDePedidos = [
+        {
+            "NroPedido": "1235",
+            "Nombre": "Tiago Palmieri",
+            "Direccion": "Moron 4718",
+            "Telefono": "34829452",
+            "tipo": "Tipo1",
+            "cantidad": 5,
+            "precioFinal": 100.0
+        },
+        {
+            "NroPedido": "1236",
+            "Nombre": "Leandro Palmieri",
+            "Direccion": "Calasanz 818",
+            "Telefono": "34829452",
+            "tipo": "Tipo2",
+            "cantidad": 3,
+            "precioFinal": 75.0
+        }
+    ];
+
+    var formularioDePedido = `
+        <div class="container">
+            <div class="card">
+                <div class="card-body">
+                    <form action="/user" method="POST">
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label>Nombre</label>
+                                <input type="text" class="form-control mb-3" name="Nombre">
+                            </div>
+                            <div class="col">
+                                <label>Dirección</label>
+                                <input type="text" class="form-control mb-3" name="Dirección">
+                            </div>
+                            <div class="col">
+                                <label>Telefono</label>
+                                <input type="text" class="form-control mb-3" name="Telefono">
+                            </div>
+                            <div class="col">
+                                <label>Tipo</label>
+                                <input type="text" class="form-control mb-3" name="tipo">
+                            </div>
+                            <div class="col">
+                                <label>Cantidad</label>
+                                <input type="text" class="form-control mb-3" name="cantidad">
+                            </div>
+                            <div class="col">
+                                <label>PrecioFinal</label>
+                                <input type="text" class="form-control mb-3" name="precioFinal">
+                            </div>
+                            <div class="col">
+                                <button class="btn btn-primary mb-3 mt-4" type="submit">Save</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Tabla -->
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Dirección</th>
+                            <th scope="col">Telefono</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Edit</th>
+                            <th scope="col">Delete</th>
+                        </thead>
+                        <tbody>
+    `;
+
+    for (let index = 0; index < colleccionDePedidos.length; index++) {
+        var pedido = colleccionDePedidos[index];
+        formularioDePedido += `
+            <tr>
+                <td>${pedido.NroPedido}</td>
+                <td>${pedido.Nombre}</td>
+                <td>${pedido.Direccion}</td>
+                <td>${pedido.Telefono}</td>
+                <td>${pedido.tipo}</td>
+                <td>${pedido.cantidad}</td>
+                <td>${pedido.precioFinal}</td>
+                <td>
+                    <button class="btn btn-primary btn-sm" id="btn-edit${pedido.NroPedido}" data-bs-toggle="modal" data-bs-target="#modal${pedido.NroPedido}">Edit</button>
+                </td>
+                <td>
+                    <a href="{{url_for('delete', nro_pedido=${pedido.NroPedido})}}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        `;
+    }
+
+    formularioDePedido += `
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.getElementById("main").innerHTML = formularioDePedido;
+
+
+            formularioDePedido += "                </tbody>";
+            formularioDePedido += "                </table>";
+            formularioDePedido += "            </div>";
+            formularioDePedido += "        </div>";
+            formularioDePedido += "    </div>";
+            document.getElementById("main").innerHTML = formularioDePedido;
+}
+
+        
+            function showContacto() {
+                var divMain = document.getElementById("main");
+                var contactoHTML =`
+                    <h1>Formas de contactarnos:</h1>
+                    <h2><img src="wpp_logo.png" width="50" height="50" title="Logo de whatsapp" /> Whatsapp: <u>1126663735</u></h2>
+                    <h3><img src="instagram_logo.png" width="50" height="50" title="Logo de whatsapp" /> Instagram: <u><a href = "https://www.instagram.com/">@pizza.bsas</a></u></h3>
+                    <h4><img src="telefono.png" width="50" height="50" title="Logo de whatsapp" /> Numero de línea: <u>114325243</u></h4>
+                    `;
+                divMain.innerHTML = contactoHTML;
+            }
+</script>
+
 <style>
         ul.navbar {
             list-style-type: none;
@@ -35,22 +206,29 @@
         }
 
         .navbar-logo {
-            float: left; /* Alinea la imagen a la izquierda */
+            float: left; 
             padding: 10px;
         }
     </style>
   </head>
   <body>
     <nav>
-        <img src="" alt="Logo de la empresa" class="navbar-logo">
+        <img src="pizza.png" 
+            width = "100px" 
+            height = "100px" 
+            alt="Logo de la empresa" 
+            class="navbar-logo" 
+            style="cursor: pointer"
+            onclick="limpiarPagina()"
+        >
         <ul class="navbar">
-            <li class="nav-item"><a href="#">Inicio</a></li>
-            <li class="nav-item"><a href="#">Productos</a></li>
-            <li class="nav-item"><a href="#">Servicios</a></li>
-            <li class="nav-item"><a href="#">Acerca de</a></li>
-            <li class="nav-item"><a href="#">Contacto</a></li>
+            <li class="nav-item"><a href="#" onclick="showMenu();">MENU</a></li>
+            <li class="nav-item"><a href="#" onclick="showPedidos();">Haga su pedido aquí</a></li>
+            <li class="nav-item"><a href="#" onclick="showContacto();">Contacto</a></li>
         </ul>
     </nav>
-    <h1>Hello, world!</h1>
+    <h1>PIZZA</h1>
+    <div id = "main"></div> 
+
   </body>
 </html>
