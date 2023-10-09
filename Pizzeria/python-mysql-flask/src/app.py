@@ -47,14 +47,28 @@ def edit(nro_pedido):
     Direccion = request.form['Dirección']
     Telefono = request.form['Telefono']
     tipo = request.form['tipo']
-    cantidad = request.form['cantidad']
+    cantidad = int(request.form['cantidad'])  # Convert cantidad to an integer
 
     if Nombre and Direccion and Telefono and tipo and cantidad:
         cursor = db.database.cursor()
-        sql = "UPDATE pedido SET Nombre = %s, Direccion = %s, Telefono = %s, tipo = %s, cantidad = %s WHERE nro_pedido = %s"
-        data = (Nombre, Direccion, Telefono, tipo, cantidad, nro_pedido)
+
+        # Define multiplication factors based on tipo
+        if tipo == "Pizza":
+            multiplicador = 2500
+        elif tipo == "Empanadas":
+            multiplicador = 350
+        else:
+            multiplicador = 0  # Default to 0 if tipo is not recognized
+
+        # Calculate the new precioFinal as an integer
+        nuevo_precioFinal = multiplicador * cantidad
+
+        # Update the pedido record with the new values
+        sql = "UPDATE pedido SET Nombre = %s, Direccion = %s, Telefono = %s, tipo = %s, cantidad = %s, precioFinal = %s WHERE nro_pedido = %s"
+        data = (Nombre, Direccion, Telefono, tipo, cantidad, nuevo_precioFinal, nro_pedido)
         cursor.execute(sql, data)
         db.database.commit()
+
     return redirect(url_for('home'))
 
 @app.route('/delete/<string:nro_pedido>')
