@@ -32,11 +32,13 @@ def addPedido():
     Telefono = request.form['Telefono']
     tipo = request.form['tipo']
     cantidad = request.form['cantidad']
+    bebida = request.form['bebida']
+    entrega = request.form['entrega']
 
     if Nombre and Direccion and Telefono and tipo and cantidad:
         cursor = db.database.cursor()
-        sql = "INSERT INTO pedido (Nombre, Direccion, Telefono, tipo, cantidad) VALUES (%s, %s, %s, %s, %s)"
-        data = (Nombre, Direccion, Telefono, tipo, cantidad)
+        sql = "INSERT INTO pedido (Nombre, Direccion, Telefono, tipo, cantidad, bebida, entrega) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        data = (Nombre, Direccion, Telefono, tipo, cantidad, bebida, entrega)
         cursor.execute(sql, data)
         db.database.commit()
     return redirect(url_for('home'))
@@ -47,21 +49,32 @@ def edit(nro_pedido):
     Direccion = request.form['Dirección']
     Telefono = request.form['Telefono']
     tipo = request.form['tipo']
-    cantidad = int(request.form['cantidad'])  # Convert cantidad to an integer
+    cantidad = int(request.form['cantidad'])
+    bebida = request.form['bebida']
+    entrega = request.form['entrega']
 
-    if Nombre and Direccion and Telefono and tipo and cantidad:
+    if Nombre and Direccion and Telefono and tipo and cantidad and bebida and entrega:
         cursor = db.database.cursor()
 
         # Define multiplication factors based on tipo
         if tipo == "Pizza":
-            multiplicador = 2500
+            comida = 2500
         elif tipo == "Empanadas":
-            multiplicador = 350
+            comida = 350
         else:
-            multiplicador = 0  # Default to 0 if tipo is not recognized
+            comida = 0  # Default to 0 if tipo is not recognized
+
+        if bebida == "Agua":
+            liquido = 200
+        elif bebida == "Coca-Cola":
+            liquido = 400
+        elif bebida == "Sprite":
+            liquido = 400
+        else:
+            liquido = 0 
 
         # Calculate the new precioFinal as an integer
-        nuevo_precioFinal = multiplicador * cantidad
+        nuevo_precioFinal = comida * cantidad + liquido
 
         # Update the pedido record with the new values
         sql = "UPDATE pedido SET Nombre = %s, Direccion = %s, Telefono = %s, tipo = %s, cantidad = %s, precioFinal = %s WHERE nro_pedido = %s"

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <h1 class="text-center mt-5 mb-5 text-danger">🍕 Pizzeria 🍕</h1>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <form action="/user" method="POST">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label>Nombre</label>
+                            <input type="text" class="form-control mb-3" name="Nombre">
+                        </div>
+                        <div class="col">
+                            <label>Dirección</label>
+                            <input type="text" class="form-control mb-3" name="Dirección">
+                        </div>
+                        <div class="col">
+                            <label>Telefono</label>
+                            <input type="text" class="form-control mb-3" name="Telefono">
+                        </div>
+                        <div class="col">
+                            <label>Tipo</label>
+                            <select type="text" class="form-control mb-3" name="tipo">
+                                <option value="" disabled selected>Selecciona una opción</option>
+                                <option value="Empanadas">Empanadas</option>
+                                <option value="Pizza">Pizza</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label>Cantidad</label>
+                            <input type="text" class="form-control mb-3" name="cantidad">
+                        </div>
+                        <div class="col">
+                            <label>Bebida</label>
+                            <select type="text" class="form-control mb-3" name="bebida">
+                                <option value="" disabled selected>Selecciona una opción</option>
+                                <option value="Empanadas">Agua</option>
+                                <option value="Pizza">Coca-Cola</option>
+                                <option value="Pizza">Sprite</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label>Entrega</label>
+                            <select type="text" class="form-control mb-3" name="entrega">
+                                <option value="" disabled selected>Selecciona una opción</option>
+                                <option value="Empanadas">Agua</option>
+                                <option value="Pizza">Coca-Cola</option>
+                                <option value="Pizza">Sprite</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-danger mb-3 mt-4" type="submit">Pedir</button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Tabla -->
+
+                <table class="table table-bordered">
+                    <thead>
+                        <th scope="col">🍕</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Dirección</th>
+                        <th scope="col">Telefono</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Bebida</th>
+                        <th scope="col">Entrega</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    </thead>
+
+                <tbody>
+                    {% for d in data %}
+                    <tr>
+                        <td>{{d.nro_pedido}}</td>
+                        <td>{{d.Nombre}}</td>
+                        <td>{{d.Direccion}}</td>
+                        <td>{{d.Telefono}}</td>
+                        <td>{{d.tipo}}</td>
+                        <td>{{d.cantidad}}</td>
+                        <td>{{d.precioFinal}}</td>
+                        <td><button class="btn btn-primary btn-sm" id="btn-edit{{d.nro_pedido}}" data-bs-toggle="modal" data-bs-target="#modal{{d.nro_pedido}}">Edit</button></td>
+                        <td><a href="{{url_for('delete', nro_pedido=d.nro_pedido)}}" class="btn btn-danger btn-sm">Delete</a></td>
+                    </tr>
+
+                    <!-- modal -->
+
+                    <div class="modal fade" id="modal{{d.nro_pedido}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h1 class="modal-title fs-5" id="exampleModalLabel">{{d.Nombre}}</h1>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/edit/{{d.nro_pedido}}" method="post">
+                                    <label>Nombre</label>
+                                    <input type="text" class="form-control mb-3" name="Nombre" value="{{d.Nombre}}">
+                                    <label>Dirección</label>
+                                    <input type="text" class="form-control mb-3" name="Dirección" value="{{d.Direccion}}">
+                                    <label>Telefono</label>
+                                    <input type="text" class="form-control mb-3" name="Telefono" value="{{d.Telefono}}">
+                                    <label>Tipo</label>
+                                    <select type="text" class="form-control mb-3" name="tipo">
+                                        <option value="" disabled selected>Selecciona una opción</option>
+                                        <option value="Empanadas">Empanadas</option>
+                                        <option value="Pizza">Pizza</option>
+                                    </select>
+                                    <label>Cantidad</label>
+                                    <input type="text" class="form-control mb-3" name="cantidad" value="{{d.cantidad}}">
+                            </div>
+                            <div class="modal-footer">
+                              <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+
+                    {% endfor %}
+                </tbody>
+            
+                </table>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
