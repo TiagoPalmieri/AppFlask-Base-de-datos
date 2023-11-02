@@ -162,7 +162,7 @@
                         <td>{{d.bebida}}</td>
                         <td>{{d.precioFinal}}</td>
                         <td><button class="btn btn-primary btn-sm" id="btn-edit{{d.nro_pedido}}" data-bs-toggle="modal" data-bs-target="#modal{{d.nro_pedido}}">Edit</button></td>
-                        <td><a href="{{url_for('delete', nro_pedido=d.nro_pedido)}}" class="btn btn-danger btn-sm">Delete</a></td>
+                        <td><a href="{{url_for('delete',nro_pedido=d.nro_pedido)}}" class="btn btn-danger btn-sm">Delete</a></td>
                     </tr>
 
                     <!-- modal -->
@@ -183,11 +183,32 @@
                                     <label>Telefono</label>
                                     <input type="text" class="form-control mb-3" name="Telefono" value="{{d.Telefono}}">
                                     <label>Tipo</label>
-                                    <select type="text" class="form-control mb-3" name="tipo">
-                                        <option value="" disabled selected>Selecciona una opción</option>
-                                        <option value="Empanadas">Empanadas</option>
-                                        <option value="Pizza">Pizza</option>
+                                    <div class="col">
+                                    <label>Tipo</label>
+                                    <select id="ddlTipo" class="form-control mb-3" name="tipo" onchange="mostrarVariedad()">
+                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option value="Empanadas">Empanadas</option>
+                                    <option value="Pizza">Pizza</option>
                                     </select>
+                                        </div>
+                                            <div class="col hide" id="opcionEmpanadas" >
+                                            <label>Variedad</label>
+                                            <select class="form-control mb-3" name = "variedad" value="{{d.variedad}}"> 
+                                                    <option value="" disabled selected>Selecciona una opción</option>
+                                                    <option value="carne">Carne</option>
+                                                    <option value="pollo">Pollo</option>
+                                                    <option value="jyq">Jamon y queso</option>
+                                            </select>
+                                        </div>
+                                        <div class="col hide" id="opcionPizzas">
+                            <               label>Variedad</label>
+                                            <select class="form-control mb-3" name = "variedad" value="{{d.variedad}}">
+                                                <option value="" disabled selected>Selecciona una opción</option>
+                                                <option value="muzzarella">Muzzarela</option>
+                                                <option value="napolitana">Napolitana</option>
+                                                <option value="fugazza">Fugazza</option>
+                                            </select>
+                                        </div>
                                     <label>Cantidad</label>
                                     <input type="text" class="form-control mb-3" name="cantidad" value="{{d.cantidad}}">
                             </div>

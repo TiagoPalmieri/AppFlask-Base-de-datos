@@ -45,3 +45,7 @@ set @precioBebida  = CAST('0' AS DECIMAL(10, 2));
 END;
 //
 DELIMITER ;
+
+select * from pedido;
+
+DELETE FROM pedido WHERE nro_pedido= 1;

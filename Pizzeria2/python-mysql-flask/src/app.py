@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 import os
 import database as db
-
 #pip install flask
 #pip install mysql-connector-python
 
