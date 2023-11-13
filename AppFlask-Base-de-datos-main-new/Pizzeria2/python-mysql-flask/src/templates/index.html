@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Pizzeria2/python-mysql-flask/src/templates/css/pedido.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap" rel="stylesheet">
+    <title>Pedido</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    <script>
+        function mostrarVariedad()
+        {
+            var ddlTipo = document.getElementById("ddlTipo");
+            var optionSeleccionado = ddlTipo.options[ddlTipo.selectedIndex].value;
+
+            var divOpcionEmpanadas = document.getElementById("opcionEmpanadas");
+            var divOpcionPizzas = document.getElementById("opcionPizzas");
+
+            divOpcionPizzas.setAttribute("class", "col hide");
+            divOpcionEmpanadas.setAttribute("class", "col hide");
+
+            if (optionSeleccionado == "Empanadas")
+            {
+                divOpcionEmpanadas.setAttribute("class", "col show");
+            }
+            else
+            {
+                divOpcionPizzas.setAttribute("class", "col show");
+            }
+        }
+   
+    </script> 
+
+</head>
+<body>
+    <header>
+        <div class="navbarg - grid-container">
+            <div class="titulo">
+                <img src="/Pizzeria2/python-mysql-flask/src/templates/img/ec69be6850253bcd8927706b2d87c56c-pincel-trazo-esp-tula-tenedor-icono-amarillo.png"
+                 width="10%"> 
+                 
+                <h1> | Pizzeria La 32</h1>
+            </div>
+            <div class="botones">
+                 <button onclick="location.href=('/Pizzeria2/python-mysql-flask/src/templates/principal.html')">Inicio</button>
+                 <button onclick="location.href=('/Pizzeria2/python-mysql-flask/src/templates/menu.html')">Menu</button>
+                 <button onclick="location.href=('/Pizzeria2/python-mysql-flask/src/templates/index.html')">Pedido</button>
+                 <button onclick="location.href=('/Pizzeria2/python-mysql-flask/src/templates/contacto.html')">Contactos</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <form action="/user" method="POST">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label>Nombre</label>
+                            <input type="text" class="form-control mb-3" name="Nombre">
+                        </div>
+                        <div class="col">
+                            <label>Dirección</label>
+                            <input type="text" class="form-control mb-3" name="Dirección">
+                        </div>
+                        <div class="col">
+                            <label>Telefono</label>
+                            <input type="text" class="form-control mb-3" name="Telefono">
+                        </div>
+                        <div class="col">
+                            <label>Tipo</label>
+                            <select id="ddlTipo" class="form-control mb-3" name="tipo" onchange="mostrarVariedad()">
+                                <option value="" disabled selected>Selecciona una opción</option>
+                                <option value="Empanadas">Empanadas</option>
+                                <option value="Pizza">Pizza</option>
+                            </select>
+                        </div>
+                        <div class="col hide" id="opcionEmpanadas" >
+                            <label>Variedad</label>
+                            <select class="form-control mb-3" name = "variedad"> 
+                                <option value="" disabled selected>Selecciona una opción</option>
+                                <option value="carne">Carne</option>
+                                <option value="pollo">Pollo</option>
+                                <option value="jyq">Jamon y queso</option>
+                            </select>
+                        </div>
+                        <div class="col hide" id="opcionPizzas">
+                            <label>Variedad</label>
+                            <select class="form-control mb-3" name = "variedad" >
+                                <option value="" disabled selected>Selecciona una opción</option>
+                                <option value="muzzarella">Muzzarela</option>
+                                <option value="napolitana">Napolitana</option>
+                                <option value="fugazza">Fugazza</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label>Cantidad</label>
+                            <input type="text" class="form-control mb-3" name="cantidad">
+                        </div>
+                        <div class="col">
+                            <label>Bebida</label>
+                            <select type="text" class="form-control mb-3" name="bebida">
+                                <option value="" disabled selected>Selecciona una opción</option>
+                                <option value="agua">Agua</option>
+                                <option value="coca-cola">Coca-Cola</option>
+                                <option value="sprite">Sprite</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-danger mb-3 mt-4" type="submit">Pedir</button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Tabla -->
+
+                <table class="table table-bordered">
+                    <thead>
+                        <th scope="col">🍕</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Dirección</th>
+                        <th scope="col">Telefono</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Variedad</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Bebida</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    </thead>
+
+                <tbody>
+                    {% for d in data %}
+                    <tr>
+                        <td>{{d.nro_pedido}}</td>
+                        <td>{{d.Nombre}}</td>
+                        <td>{{d.Direccion}}</td>
+                        <td>{{d.Telefono}}</td>
+                        <td>{{d.tipo}}</td>
+                        <td>{{d.variedad}}</td>
+                        <td>{{d.cantidad}}</td>
+                        <td>{{d.bebida}}</td>
+                        <td>{{d.precioFinal}}</td>
+                        <td><button class="btn btn-primary btn-sm" id="btn-edit{{d.nro_pedido}}" data-bs-toggle="modal" data-bs-target="#modal{{d.nro_pedido}}">Edit</button></td>
+                        <td><a href="{{url_for('delete',nro_pedido=d.nro_pedido)}}" class="btn btn-danger btn-sm">Delete</a></td>
+                    </tr>
+
+                    <!-- modal -->
+
+                    <div class="modal fade" id="modal{{d.nro_pedido}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h1 class="modal-title fs-5" id="exampleModalLabel">{{d.Nombre}}</h1>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/edit/{{d.nro_pedido}}" method="post">
+                                    <label>Nombre</label>
+                                    <input type="text" class="form-control mb-3" name="Nombre" value="{{d.Nombre}}">
+                                    <label>Dirección</label>
+                                    <input type="text" class="form-control mb-3" name="Dirección" value="{{d.Direccion}}">
+                                    <label>Telefono</label>
+                                    <input type="text" class="form-control mb-3" name="Telefono" value="{{d.Telefono}}">
+                                    <label>Tipo</label>
+                                    <div class="col">
+                                    <label>Tipo</label>
+                                    <select id="ddlTipo" class="form-control mb-3" name="tipo" onchange="mostrarVariedad()">
+                                    <option value="" disabled selected>Selecciona una opción</option>
+                                    <option value="Empanadas">Empanadas</option>
+                                    <option value="Pizza">Pizza</option>
+                                    </select>
+                                        </div>
+                                            <div class="col hide" id="opcionEmpanadas" >
+                                            <label>Variedad</label>
+                                            <select class="form-control mb-3" name = "variedad" value="{{d.variedad}}"> 
+                                                    <option value="" disabled selected>Selecciona una opción</option>
+                                                    <option value="carne">Carne</option>
+                                                    <option value="pollo">Pollo</option>
+                                                    <option value="jyq">Jamon y queso</option>
+                                            </select>
+                                        </div>
+                                        <div class="col hide" id="opcionPizzas">
+                                    <label>Variedad</label>
+                                            <select class="form-control mb-3" name = "variedad" value="{{d.variedad}}">
+                                                <option value="" disabled selected>Selecciona una opción</option>
+                                                <option value="muzzarella">Muzzarela</option>
+                                                <option value="napolitana">Napolitana</option>
+                                                <option value="fugazza">Fugazza</option>
+                                            </select>
+                                        </div>
+                                    <label>Cantidad</label>
+                                    <input type="text" class="form-control mb-3" name="cantidad" value="{{d.cantidad}}">
+                            </div>
+                            <div class="modal-footer">
+                              <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                            </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+
+                    {% endfor %}
+                </tbody>
+            
+                </table>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
